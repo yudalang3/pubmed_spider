@@ -17,6 +17,7 @@
 -  numpy
 -  requests
 -  BeautifulSoup
+-  lxml
 
 ## 使用方法
 
@@ -76,4 +77,5 @@ autosave-20485442.txt  autosave-28739658.txt  autosave-34782732.txt  autosave-37
 
 注意：由于PubMed查询时的模糊匹配，某些文章可能会映射到多个PMID，导致下载额外的文件。
 但是，由于我们的目标是为LLM知识库收集所有相关的文章文本，这并不是一个大问题。
+
 
