@@ -1,0 +1,61 @@
+# 字节码文件
+*.pyc
+__pycache__/
+*$$$.py
+*.o
+*.so
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# Virtual Environment (虚拟环境)
+# 这是一个非常重要的部分。你的虚拟环境应该被忽略。
+.venv/
+venv/
+env/
+/bin
+/include
+/lib
+/local
+/share
+
+# 包管理工具 (pip, poetry, conda)
+# Pip
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Poetry (如果使用)
+.venv/  # 如果 venv 目录在项目根目录，会被上面的 venv/ 忽略
+
+# Conda (如果使用)
+# conda-bld/
+
+# 测试和文档 (如果适用)
+# .pytest_cache/
+# /docs/_build/
+
+# IDE 和编辑器文件
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Jupyter Notebook 检查点
+.ipynb_checkpoints
+
+# 历史文件 (如 IPython 历史)
+.python_history
+.ropeproject
+
+# 日志和数据库
+*.log
+*.sqlite3
+/media
+/static
+
+# 临时文件
+*~

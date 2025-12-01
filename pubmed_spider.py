@@ -153,7 +153,6 @@ def get_abstract_by_pmid(pmid,plain_text=True):
 
 # get abstract, pmcid, full text
 def get_fulltext_by_pmcid(pmcid):
-    #pmcid = "PMC8558904"
     url = f"https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/"
     headers = {
         'Content-Type': 'application/json',
@@ -163,9 +162,15 @@ def get_fulltext_by_pmcid(pmcid):
     req = requests.get(url,headers=headers)
     req.encoding = "utf-8"
     txt = req.text
-    bs4obj = BeautifulSoup(txt,'lxml')
-    #find main div with id="main-content"
-    main_text = bs4obj.find_all("main")[0].get_text().strip()
+    try:
+        bs4obj = BeautifulSoup(txt,'lxml')
+        # find main div with id="main-content"
+        main_text = bs4obj.find_all("main")[0].get_text().strip()
+    except Exception as e:
+        print("Something wrong when we try extracting web page by lxml. Now we use default parser.")
+        bs4obj = BeautifulSoup(txt)
+        # find main div with id="main-content"
+        main_text = bs4obj.find_all("main")[0].get_text().strip()
     return main_text
 
 
@@ -248,22 +253,26 @@ def get_and_save_text_by_title(title,output_dir):
 def run(zotero_export_csv_path, output_dir="saves"):
     print(f"input  csv file = {zotero_export_csv_path}")
     print(f"output dir path = {output_dir}")
-    #os.system(f'mkdir -v "{output_dir}"')
+    # detect file format: is csv or tsv?
+    is_csv = False
+    with open(zotero_export_csv_path, 'r', encoding='utf-8') as f:
+        first_line = f.readline()
+        comma_count = first_line.count(',')
+        tab_count = first_line.count('\t')
+        # If comma count is significantly higher than tab count, it's CSV format
+        if comma_count > tab_count:
+            is_csv = True
     os.makedirs(output_dir,exist_ok=True)
-    article_df = pd.read_csv(zotero_export_csv_path)
-    #article_df.head(2)
+    if(is_csv):
+        article_df = pd.read_csv(zotero_export_csv_path, encoding="utf-8", sep=",")
+    else:
+        article_df = pd.read_csv(zotero_export_csv_path, encoding="utf-8", sep="\t", low_memory=False)
     title_list = list(article_df["Title"])
     for i in range(len(title_list)):
         title = title_list[i]
         print(f"[{i}/{len(title_list)}]Processing article: `{title}`")
         get_and_save_text_by_title(title,output_dir)
         time.sleep(1) # sleep one second to avoid being banned by pubmed
-    
-    
-
-
-# In[1]:
-
 
 if(__name__=="__main__"):
     if(len(sys.argv)<2):
