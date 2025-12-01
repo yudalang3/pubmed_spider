@@ -34,7 +34,8 @@ def get_pmid_by_title(title):
     req = requests.get(url,headers=headers)
     req.encoding = "utf-8"
     txt = req.text
-    bs4obj = BeautifulSoup(txt,'lxml')
+    try:   bs4obj = BeautifulSoup(txt,'lxml')
+    except:bs4obj = BeautifulSoup(txt,'html.parser')
     # define a list for pmid storage.
     pmid_res_list = []
     # if searched multiple articles
@@ -72,7 +73,8 @@ def get_bs4obj_by_pmid(pmid):
     req = requests.get(url,headers=headers)
     req.encoding = "utf-8"
     txt = req.text
-    bs4obj = BeautifulSoup(txt,'lxml')
+    try:   bs4obj = BeautifulSoup(txt,'lxml')
+    except:bs4obj = BeautifulSoup(txt,'html.parser')
     return bs4obj
 
 
@@ -189,7 +191,8 @@ def get_and_save_text_by_title(title,output_dir):
     req = requests.get(url,headers=headers)
     req.encoding = "utf-8"
     txt = req.text
-    bs4obj = BeautifulSoup(txt,'lxml')
+    try:   bs4obj = BeautifulSoup(txt,'lxml')
+    except:bs4obj = BeautifulSoup(txt,'html.parser')
     # define a list for pmid storage.
     pmid_res_list  = []
     pmcid_res_list = []
