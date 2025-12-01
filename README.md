@@ -16,6 +16,7 @@ You need python3 and following libraries:
 -  numpy
 -  requests
 -  BeautifulSoup
+-  lxml
 
 ## Usage
 
